@@ -1,7 +1,11 @@
 package com.kb.org;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.kb.org.member.MemberVO;
 
 @WebServlet("*.do")
 public class MainController extends HttpServlet {
@@ -35,8 +41,35 @@ public class MainController extends HttpServlet {
 			 * 최신글 목록 5개
 			 */
 			rd = request.getRequestDispatcher("index.jsp");
-		} else if(cmd.equals("/member.do")) {
 			
+		} else if(cmd.equals("/member.do")) {
+			try {
+				
+				List<MemberVO> list = new ArrayList<>();
+				Connection conn = ConnectionPool.getcoConnection();
+				PreparedStatement pstmt = conn.prepareStatement(" select * from member ");
+				ResultSet rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					list.add(
+						new MemberVO(
+							rs.getString("seq"),
+							rs.getString("id"),
+							rs.getString("name"),
+							rs.getString("pwd"),
+							rs.getString("gender"),
+							rs.getString("joindate")
+							)
+					);
+									
+				}
+	
+				request.setAttribute("list", list);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+						
 			rd = request.getRequestDispatcher("member.jsp");
 		} else if(cmd.equals("/freeboard.do")) {
 			rd = request.getRequestDispatcher("freeboard.jsp");
