@@ -1,109 +1,63 @@
 package com.kb.org.member;
 
 public class MemberVO {
-
-	private String seq;
-	private String id;
 	private String name;
+	private String id;
 	private String pwd;
-	private String gender;
+	private int seq;
 	private String joindate;
-	
-	
-	
-	public MemberVO(String seq, String id, String name, String pwd, String gender, String joindate) {
-		super();
-		this.seq = seq;
-		this.id = id;
-		this.name = name;
-		this.pwd = pwd;
-		this.gender = gender;
-		this.joindate = joindate;
-	}
-
-
-
+	private String gender;
 	@Override
 	public String toString() {
-		return "MemberVO [seq=" + seq + ", id=" + id + ", name=" + name + ", pwd=" + pwd + ", gender=" + gender
-				+ ", joindate=" + joindate + "]";
+		return "MemberVO [name=" + name + ", id=" + id + ", pwd=" + pwd + ", seq=" + seq + ", joindate=" + joindate
+				+ ", gender=" + gender + "]";
 	}
-
-
-
-	public String getSeq() {
-		return seq;
-	}
-
-
-
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
-
-
-
-	public String getId() {
-		return id;
-	}
-
-
-
-	public void setId(String id) {
+	public MemberVO() {}
+	public MemberVO(String name, String id, String pwd, int seq, String joindate, String gender) {
+		super();
+		this.name = name;
 		this.id = id;
+		this.pwd = pwd;
+		this.seq = seq;
+		this.joindate = joindate;
+		this.gender = gender;
 	}
-
-
-
+	
 	public String getName() {
 		return name;
 	}
-
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
-
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getPwd() {
 		return pwd;
 	}
-
-
-
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-
-
-
-	public String getGender() {
-		return gender;
+	public int getSeq() {
+		return seq;
 	}
-
-
-
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
-
-
-
 	public String getJoindate() {
 		return joindate;
 	}
-
-
-
 	public void setJoindate(String joindate) {
 		this.joindate = joindate;
 	}
-
-
-
-	public MemberVO () {
-		
+	public String getGender() {
+		return gender;
 	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
 }

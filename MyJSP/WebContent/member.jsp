@@ -1,22 +1,18 @@
-<%@page import="com.kb.org.member.MemberVO"%>
-<%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>    
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<!DOCTYPE>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<jsp:include page="head.jsp"></jsp:include>
+<%@ include file="head.jsp" %>
 </head>
 <body>
 	<div class="container">
-		<!--head -->
-		<jsp:include page="menu.jsp"></jsp:include>
-		<!--body -->
-		<div class="row">
-			<div class="col">
+		<jsp:include page="menu.jsp" />
+		<!-- 중간 -->
+		<div class="row"><!-- xs( xm md lg -->
+			<div class="col-xs-9" style="background-color: yellow;">
 				<table class="table">
 					<tr>
 						<td>순번</td>
@@ -27,11 +23,11 @@
 						<td>가입날짜</td>
 					</tr>
 					<%
-// 						List<MemberVO> list = (List)request.getAttribute("list");
-// 						for( MemberVO vo : list)
+// 						List<MemberVO> list = (List) request.getAttribute("myList");
+// 						for( MemberVO vo :list)
 // 							out.println(vo.getName());
- 					%> 
-					<c:forEach items="${list}" var="i">
+					%>
+					<c:forEach items="${myList}" var="i">
 						<tr>
 							<td>${i.seq}</td>
 							<td>${i.id}</td>
@@ -43,13 +39,32 @@
 					</c:forEach>
 				</table>
 			</div>
+			<div class="col-xs-3" style="background-color: blue;">
+				<button type="button" class="btn" onclick="location.href='memberInsert.do';">회원등록</button>
+			</div>
 		</div>
-		<!--footer -->
+		<div class="row">
+			<div class="col-xs-12">
+				<ul class="pagination">
+					<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+				<c:forEach begin="1" end="${membercnt}" var="i">
+					<li class="page-item"><a class="page-link" href="${path}/member.do?pageNum=${i}">${i}</a></li>
+				</c:forEach>
+					<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- 발 -->
 		<div class="row">
 			<div class="col text-center">
-				copy right
+				copy right 멍구
 			</div>
 		</div>
 	</div>
 </body>
 </html>
+
+
+
+
+

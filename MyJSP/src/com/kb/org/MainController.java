@@ -14,12 +14,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kb.org.member.MemberDAO;
 import com.kb.org.member.MemberVO;
 
 @WebServlet("*.do")
 public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+    private MemberDAO dm = MemberDAO.getInstance();
+    
     public MainController() {
         super();
     }
@@ -30,59 +32,40 @@ public class MainController extends HttpServlet {
 		String reqURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String cmd = reqURI.substring(contextPath.length());
-		
-		System.out.println("reqURI = " + reqURI);
-		System.out.println("contextPath = " +contextPath);
-		System.out.println("cmd = " + cmd);
-		
-		if(cmd.equals("/index.do")) {
-			/*
-			 * 최신회원가입 목록 5개
-			 * 최신글 목록 5개
-			 */
+
+		if( cmd.equals("/index.do")) {
 			rd = request.getRequestDispatcher("index.jsp");
-			
-		} else if(cmd.equals("/member.do")) {
-			try {
-				
-				List<MemberVO> list = new ArrayList<>();
-				Connection conn = ConnectionPool.getcoConnection();
-				PreparedStatement pstmt = conn.prepareStatement(" select * from member ");
-				ResultSet rs = pstmt.executeQuery();
-				
-				while (rs.next()) {
-					list.add(
-						new MemberVO(
-							rs.getString("seq"),
-							rs.getString("id"),
-							rs.getString("name"),
-							rs.getString("pwd"),
-							rs.getString("gender"),
-							rs.getString("joindate")
-							)
-					);
-									
-				}
-	
-				request.setAttribute("list", list);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-						
+		}
+		else if(cmd.equals("/member.do")) {
+			dm.select(request);
+			dm.cntmember(request);
 			rd = request.getRequestDispatcher("member.jsp");
-		} else if(cmd.equals("/freeboard.do")) {
+		}
+		else if(cmd.equals("/freeboard.do")) {
 			rd = request.getRequestDispatcher("freeboard.jsp");
-		} else if(cmd.equals("/memberInsert.do")) {
+		}
+		else if(cmd.equals("/memberInsert.do")) {
 			rd = request.getRequestDispatcher("memberInsert.jsp");
-		}		
-		
+		}
+		else if(cmd.equals("/memberInsertProc.do")) {
+			dm.insert(request);
+			dm.select(request);
+			dm.cntmember(request);
+			rd = request.getRequestDispatcher("member.jsp");
+		}
 		rd.forward(request, response);
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }
+
+
+
+
+
+
+
+
+
