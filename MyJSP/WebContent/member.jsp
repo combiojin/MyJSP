@@ -6,6 +6,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@ include file="head.jsp" %>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#mytr").click(function() {
+			alert("연결되나")
+		})
+	})
+</script>
 </head>
 <body>
 	<div class="container">
@@ -28,7 +35,7 @@
 // 							out.println(vo.getName());
 					%>
 					<c:forEach items="${myList}" var="i">
-						<tr>
+						<tr id="mytr">
 							<td>${i.seq}</td>
 							<td>${i.id}</td>
 							<td>${i.pwd}</td>
