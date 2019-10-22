@@ -8,20 +8,37 @@
 <%@ include file="head.jsp" %>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#mytr").click(function() {
-			alert("연결되나")
-		})
-	})
+		$(".mytr").css("cursor","pointer");
+		
+		$("input[type='checkbox']").click(function() {
+			$(this).attr("checked","true");
+			e.preventdefault();
+			e.stoppropagation();
+		});
+		
+		$(".mytr").click(function() {
+			var seq = $(this).attr("seq")
+			location.href = "memberUpdate.do?seq="+seq;
+		});
+		
+	});
 </script>
 </head>
 <body>
 	<div class="container">
 		<jsp:include page="menu.jsp" />
 		<!-- 중간 -->
+		<div class="row">
+			<div class="col-xs-3">
+				<button style="margin:30px 0;" type="button" class="btn-primary" onclick="location.href='memberInsert.do';">회원등록</button>
+				<button style="margin:30px 0;" type="button" class="btn-primary" onclick="location.href='memberDelete.do';">회원삭제</button>
+			</div>
+		</div>
 		<div class="row"><!-- xs( xm md lg -->
-			<div class="col-xs-9" style="background-color: yellow;">
+			<div class="col-xs-12">
 				<table class="table">
 					<tr>
+						<td>체크</td>
 						<td>순번</td>
 						<td>아이디</td>
 						<td>비밀번호</td>
@@ -35,7 +52,8 @@
 // 							out.println(vo.getName());
 					%>
 					<c:forEach items="${myList}" var="i">
-						<tr id="mytr">
+						<tr class="mytr" seq="${i.seq}">
+							<td><input type="checkbox" name="seq" value="${i.seq}"></td>
 							<td>${i.seq}</td>
 							<td>${i.id}</td>
 							<td>${i.pwd}</td>
@@ -45,9 +63,6 @@
 						</tr>
 					</c:forEach>
 				</table>
-			</div>
-			<div class="col-xs-3" style="background-color: blue;">
-				<button type="button" class="btn" onclick="location.href='memberInsert.do';">회원등록</button>
 			</div>
 		</div>
 		<div class="row">

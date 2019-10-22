@@ -104,4 +104,58 @@ public class MemberDAO {
 			e.printStackTrace();
 		}	
 	}
+	public void selectRow(HttpServletRequest request) {
+		String seq = request.getParameter("seq");
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ConnectionPool.getConnection();
+			pstmt = conn.prepareStatement(" select * from member where seq = ? ");
+			pstmt.setInt(1, Integer.parseInt(seq));
+				
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				MemberVO mv = new MemberVO();
+				mv.setId(rs.getString("id"));
+				mv.setJoindate(rs.getString("joindate"));
+				mv.setGender(rs.getString("gender"));
+				mv.setPwd(rs.getString("pwd"));
+				mv.setSeq(rs.getInt("seq"));
+				mv.setName(rs.getString("name"));
+				
+				request.setAttribute("row", mv);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void updateRow(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String pwd = request.getParameter("pwd");
+		String gender = request.getParameter("gender");
+		String seq = request.getParameter("seq");
+		
+		try {
+			Connection conn = ConnectionPool.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(" update member " + 
+															" set id = ?, " + 
+															"	  name = ?, " + 
+															"     pwd = ?, " + 
+															"     gender = ? " + 
+															" where seq = ? ");
+			pstmt.setString(1, id);
+			pstmt.setString(2, name);
+			pstmt.setString(3, pwd);
+			pstmt.setString(4, gender);
+			pstmt.setInt(5, Integer.parseInt(seq));
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

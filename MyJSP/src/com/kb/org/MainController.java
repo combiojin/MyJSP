@@ -53,6 +53,18 @@ public class MainController extends HttpServlet {
 			dm.cntmember(request);
 			rd = request.getRequestDispatcher("member.jsp");
 		}
+		else if(cmd.equals("/memberUpdate.do")) {
+			dm.selectRow(request);
+			rd = request.getRequestDispatcher("memberUpdate.jsp");
+		}
+		else if(cmd.equals("/memberUpdateProc.do")) {
+			dm.updateRow(request);
+			dm.select(request);
+			rd = request.getRequestDispatcher("member.jsp");
+		}
+		else {
+			rd = request.getRequestDispatcher("error404.jsp");
+		}
 		rd.forward(request, response);
 	}
 
