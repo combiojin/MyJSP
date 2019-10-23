@@ -62,6 +62,16 @@ public class MainController extends HttpServlet {
 			dm.select(request);
 			rd = request.getRequestDispatcher("member.jsp");
 		}
+		else if(cmd.equals("/memberDelete.do")) {
+			
+			String[] seqs = request.getParameterValues("seq");
+//			for(String temp : seqs)
+//			System.out.println("temp =" +temp);
+			dm.delete(request,seqs);
+			dm.select(request);
+			dm.cntmember(request);
+			rd = request.getRequestDispatcher("member.jsp");
+		}
 		else {
 			rd = request.getRequestDispatcher("error404.jsp");
 		}

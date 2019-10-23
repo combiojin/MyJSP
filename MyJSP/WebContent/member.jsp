@@ -10,35 +10,45 @@
 	$(document).ready(function() {
 		$(".mytr").css("cursor","pointer");
 		
-		$("input[type='checkbox']").click(function() {
-			$(this).attr("checked","true");
-			e.preventdefault();
-			e.stoppropagation();
+		$(".inputbox").click(function(e) {
+			var seq = $(this).attr("id");
+			$("#"+seq).attr("checked","true");
+// 			e.preventDefault(); 기본이벤트제거
+			e.stopPropagation(); //부모태그 이벤트제거
 		});
 		
-		$(".mytr").click(function() {
-			var seq = $(this).attr("seq")
+		$(".mytr").on('click' , function(e) {
+			var seq = $(this).attr("seq");
 			location.href = "memberUpdate.do?seq="+seq;
 		});
 		
 	});
+	
+	function doDelete() {
+		var test = confirm("삭제 하시겠습니까?");
+		if(test){
+			$("#myform").attr("action","memberDelete.do");
+			$("#myform").submit();
+		}
+	}
 </script>
 </head>
 <body>
+<form action="" method="get" id="myform">
 	<div class="container">
 		<jsp:include page="menu.jsp" />
 		<!-- 중간 -->
 		<div class="row">
 			<div class="col-xs-3">
 				<button style="margin:30px 0;" type="button" class="btn-primary" onclick="location.href='memberInsert.do';">회원등록</button>
-				<button style="margin:30px 0;" type="button" class="btn-primary" onclick="location.href='memberDelete.do';">회원삭제</button>
+				<button style="margin:30px 0;" type="button" class="btn-primary" onclick="doDelete();">회원삭제</button>
 			</div>
 		</div>
 		<div class="row"><!-- xs( xm md lg -->
 			<div class="col-xs-12">
 				<table class="table">
 					<tr>
-						<td>체크</td>
+						<th class="justfly-content-center text-center">체크</th>
 						<td>순번</td>
 						<td>아이디</td>
 						<td>비밀번호</td>
@@ -53,7 +63,9 @@
 					%>
 					<c:forEach items="${myList}" var="i">
 						<tr class="mytr" seq="${i.seq}">
-							<td><input type="checkbox" name="seq" value="${i.seq}"></td>
+							<th class="justfly-content-center text-center">
+								<input class="inputbox" id="check${i.seq}" type="checkbox" name="seq" value="${i.seq}">
+							</th>
 							<td>${i.seq}</td>
 							<td>${i.id}</td>
 							<td>${i.pwd}</td>
@@ -83,6 +95,7 @@
 			</div>
 		</div>
 	</div>
+</form>
 </body>
 </html>
 

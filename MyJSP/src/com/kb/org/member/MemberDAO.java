@@ -158,4 +158,25 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public void delete(HttpServletRequest request, String[] seqs) {
+		
+		try {
+			String deleteseq = "";
+			for (int i = 0; i<seqs.length;i++) {
+				deleteseq += seqs[i]+",";
+			}
+			deleteseq = deleteseq.substring(0,deleteseq.length()-2);
+			
+			Connection conn = ConnectionPool.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(" delete from member " + 
+															" where seq in ( "+deleteseq+" ) ");
+//			pstmt.setString(1, deleteseq);
+			
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
